@@ -3,6 +3,7 @@ package com.binu.springboot.employeecrud.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +16,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 
 	EmployeeDAO employeeDAO;
 	
-	@Autowired
-	public EmployeeServiceImpl(EmployeeDAO theEmployeeDAO) {
+	@Autowired         // note that the bean id in the @Qualifier must start with a lower case letter
+	public EmployeeServiceImpl(@Qualifier("employeeDAOJpaImpl") EmployeeDAO theEmployeeDAO) {
 		this.employeeDAO = theEmployeeDAO;
 	}
 	
