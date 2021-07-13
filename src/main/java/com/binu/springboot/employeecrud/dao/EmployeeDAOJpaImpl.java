@@ -36,25 +36,57 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO{
 
 	@Override
 	public Employee findById(int theId) {
+		
 		 
-		return null;
+//		Query theQuery = entityManager.createQuery("from Employee where id=:theId");
+//		theQuery.setParameter("theId",theId);
+//		 
+//		Employee employee = (Employee)theQuery.getSingleResult();
+//		
+//		if (employee == null) {
+//			throw new RuntimeException("Could not find employee with id: " + theId);
+//		}
+		
+		Employee employee = entityManager.find(Employee.class, theId);
+ 		if (employee == null) {
+ 			throw new RuntimeException("Could not find employee with id: " + theId);
+ 		}
+		
+		// return the results
+		return employee;
 	}
 
 	@Override
 	public void save(Employee theEmployee) {
 		 
+		// merge will do a save if id=0, else will do an update
+		Employee savedEmployee = entityManager.merge(theEmployee);
 		
+		//theEmployee.setId(savedEmployee.getId());
 	}
 
 	@Override
 	public void update(Employee theEmployee) {
 		 
+		// merge will do a save if id=0, else will do an update
+		entityManager.merge(theEmployee);
 		
 	}
 
 	@Override
 	public void deleteById(int theId) {
 		 
+//		Employee employeeToDelete = entityManager.find(Employee.class, theId);
+//		if (employeeToDelete == null) {
+//			throw new RuntimeException("Could not find employee id: " + theId);
+//		}
+//		entityManager.remove(employeeToDelete);
+		
+		Query theQuery = entityManager.createQuery("delete from Employee where id=:theId");
+		theQuery.setParameter("theId", theId);
+		
+		theQuery.executeUpdate();
+		
 		
 	}
 
